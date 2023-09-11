@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Anonymous Message</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+
+        <link rel="stylesheet" type="text/css"
+            href="vendor/bootstrap/css/bootstrap.min.css">
+
+        <link rel="stylesheet" type="text/css"
+            href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" type="text/css"
+            href="fonts/iconic/css/material-design-iconic-font.min.css">
+
+        <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+
+        <link rel="stylesheet" type="text/css"
+            href="vendor/css-hamburgers/hamburgers.min.css">
+
+        <link rel="stylesheet" type="text/css"
+            href="vendor/animsition/css/animsition.min.css">
+
+        <link rel="stylesheet" type="text/css"
+            href="vendor/select2/select2.min.css">
+
+        <link rel="stylesheet" type="text/css"
+            href="vendor/daterangepicker/daterangepicker.css">
+
+        <link rel="stylesheet" type="text/css" href="css/util.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <meta name="robots" content="noindex, follow">
+
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background: url('assets/naruto-naruto-shippuden.gif') no-repeat center center fixed;
+                background-size: cover;
+                animation: backgroundSlider 10.5s infinite;
+            }
+    
+            @keyframes backgroundSlider {
+                0% {
+                    background-image: url('assets/naruto-naruto-shippuden.gif');
+                }
+                33% {
+                    background-image: url('assets/naruto-og-naruto.gif');
+                }
+                66% {
+                    background-image: url('assets/naruto.gif');
+                }
+                100% {
+                    background-image: url('assets/naruto-naruto-shippuden.gif');
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="limiter">
+            <div class="container-login100"
+                style="background-color: transparent;">
+
+                <div class="wrap-login100"
+                    style="background: rgba(255, 255, 255, 0.2);">
+                    <form class="login100-form validate-form" id="messageForm">
+                        <span class="login100-form-title"
+                            style="font-weight: bolder; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                            <span style="font-size: 30px;">Hello, <span
+                                    style="color: rgb(224, 40, 40);">Send me an
+                                    anonymous message !</span>
+                                <p class="text-dark">(P.s: You can also add you're
+                                    fav music)</p>
+                            </span>
+
+                            <div class="wrap-input100" style="line-height: 0;">
+                                <input class="input100" type="text" name="name"
+                                    id="nameInput" placeholder="Name (optional)"
+                                    style="font-family: 'Times New Roman', Times, serif;"
+                                    optional>
+                            </div>
+                            <div class="wrap-input100"
+                                data-validate="Enter password">
+                                <textarea class="input100"
+                                    style="color: #000; font-family: 'Times New Roman', Times, serif;"
+                                    type="text" name="msg"
+                                    placeholder="Message" id="messageInput"
+                                    required></textarea>
+                            </div>
+                            <div class="container-login100-form-btn">
+                                <div class="wrap-login100-form-btn">
+                                    <div class="login100-form-bgbtn"></div>
+                                    <button class="login100-form-btn">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <style>
+                        input::placeholder,
+                        textarea::placeholder {
+                            color: #000; /* Replace with your desired color code */
+                        }
+                    </style>
+
+                        <!-- Bootstrap Modal -->
+                        <div class="modal fade" id="successModal">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <img src="assets/fright-surprised.gif"
+                                        width="100%" alt="gif">
+                                    <div class="modal-body">
+                                        <h6 class="text-center">Your anonymous
+                                            message has been sent!</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                        // Get references to the form and input fields
+                        const messageForm = document.getElementById('messageForm');
+                        const nameInput = document.getElementById('nameInput');
+                        const messageInput = document.getElementById('messageInput');
+                
+                        // Event listener for form submission
+                        messageForm.addEventListener('submit', function (e) {
+                            e.preventDefault();
+                
+                            // Get the values from the input fields
+                            const name = nameInput.value;
+                            const message = messageInput.value;
+
+                            // Check if localStorage is supported by the browser
+                            if (typeof Storage !== 'undefined') {
+    if (message === "admin") {
+        // Redirect to another page
+        window.location.href = 'msg.html';
+    } else {
+        // Create a message object
+        const newMessage = {
+            name: name,
+            message: message,
+        };
+
+        // Retrieve existing messages or initialize as an empty array
+        const existingMessages = JSON.parse(localStorage.getItem('anonymousMessages')) || [];
+
+        // Add the new message to the existing messages
+        existingMessages.push(newMessage);
+
+        // Store the updated messages in localStorage
+        localStorage.setItem('anonymousMessages', JSON.stringify(existingMessages));
+
+        // Show the success modal
+        $('#successModal').modal('show');
+
+        // Clear the input fields
+        nameInput.value = '';
+        messageInput.value = '';
+    }
+} else {
+    // Handle the case where localStorage is not supported
+    alert('Sorry, your browser does not support local storage.');
+}
+                        });
+                    </script>
+                        <div class="mt-3">
+                            <p class="text-black text-center">@lx :)</p>
+                        </div>
+                    </div>
+                </div>Ï
+
+            </div>
+            <div id="dropDownSelect1"></div>
+
+            <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+
+            <script src="vendor/animsition/js/animsition.min.js"></script>
+
+            <script src="vendor/bootstrap/js/popper.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+            <script src="vendor/select2/select2.min.js"></script>
+
+            <script src="vendor/daterangepicker/moment.min.js"></script>
+            <script src="vendor/daterangepicker/daterangepicker.js"></script>
+
+            <script src="vendor/countdowntime/countdowntime.js"></script>
+
+            <script src="js/main.js"></script>
+
+            <script async
+                src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+            <script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-23581568-13');
+	</script>
+            <script defer
+                src="https://static.cloudflareinsights.com/beacon.min.js/v8b253dfea2ab4077af8c6f58422dfbfd1689876627854"
+                integrity="sha512-bjgnUKX4azu3dLTVtie9u6TKqgx29RBwfj3QXYt5EKfWM/9hPSAI/4qcV5NACjwAo8UtTeWefx6Zq5PHcMm7Tg=="
+                data-cf-beacon='{"rayId":"805026ce6b5f988a","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2023.8.0","si":100}'
+                crossorigin="anonymous"></script>
+        </body>
+    </html>

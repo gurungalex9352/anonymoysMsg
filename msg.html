@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Received Messages</title>
+        <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid text-center p-3 text-light " style="background-color: black;">
+            <h2>Received Messages</h2>
+        </div>
+        <div class="container-fluid d-flex justify-content-between w-75 py-3">
+            <a href="index.html"><button class="btn btn-info">Main Page</button></a>
+            <button class="btn btn-secondary" id="deleteLocalStorage">Clear All</button>
+
+        </div>
+
+        <!-- Table to display messages -->
+        <div class="container-fluid">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover w-75 m-auto">
+                    <thead class="bg-secondary text-light">
+                        <tr>
+                            <th style="width: 20%;">Name</th>
+                            <th>Message</th>
+                            <th class="text-center" style="width: 10%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messageList">
+                        <!-- Display stored messages here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+        // Get reference to the message list
+        const messageList = document.getElementById('messageList');
+
+        // Retrieve the stored messages from localStorage
+        const storedMessages = JSON.parse(localStorage.getItem('anonymousMessages')) || [];
+
+        // Function to display messages
+        function displayMessages() {
+            // Clear the current list
+            messageList.innerHTML = '';
+
+            // Display each message in a row with a delete button
+            storedMessages.forEach(function (message, index) {
+                const row = document.createElement('tr');
+                const nameCell = document.createElement('td');
+                const messageCell = document.createElement('td');
+                const actionCell = document.createElement('td');
+                const deleteButton = document.createElement('button');
+
+                // Set the content and attributes
+                nameCell.textContent = message.name;
+                messageCell.textContent = message.message;
+                deleteButton.textContent = 'Delete';
+                deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+
+                // Add click event for delete
+                deleteButton.addEventListener('click', function () {
+                    storedMessages.splice(index, 1);
+                    localStorage.setItem('anonymousMessages', JSON.stringify(storedMessages));
+                    displayMessages();
+                });
+
+                // Append elements to the row
+                actionCell.appendChild(deleteButton);
+                row.appendChild(nameCell);
+                row.appendChild(messageCell);
+                row.appendChild(actionCell);
+                messageList.appendChild(row);
+            });
+        }
+
+        // Initial message display
+        displayMessages();
+    </script>
+        <script>
+    // Button click event to delete local storage
+    document.getElementById('deleteLocalStorage').addEventListener('click', function () {
+        const confirmed = confirm('Are you sure you want to delete all local storage data?');
+            if (confirmed) {
+                localStorage.clear();
+                // Refresh the current page
+location.reload();
+
+                alert('Local storage data has been deleted.');
+            }
+    });
+</script>
+    </body>
+</html>
